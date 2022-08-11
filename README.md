@@ -1,4 +1,4 @@
-# Vue3TypescriptSimpleWebApp
+# A Vue3 Typescript Web App
 
 This is a simple web app which consumes the Articles API (please clone and run locally).
 
