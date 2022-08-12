@@ -1,12 +1,7 @@
 <template>
   <div id="app">
-    <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <nav class="navbar navbar-light" style="background-color: #e3f2fd;">
       <router-link to="/" class="navbar-brand">Home</router-link>
-      <div class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <router-link to="/articles" class="nav-link">Articles</router-link>
-        </li>
-      </div>
     </nav>
 
     <div class="container mt-3">

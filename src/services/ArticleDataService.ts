@@ -1,13 +1,13 @@
-import http from "@/http-common";
+import apiClient from "@/api-client";
 
 /* eslint-disable */
 class ArticleDataService {
-  getAll(params: any): Promise<any> {
-    return http.get("/articles", { params });
+  getArticles(params: any): Promise<any> {
+    return apiClient.get("/articles", { params });
   }
 
-  get(id: string): Promise<any> {
-    return http.get(`/articles/${id}`);
+  getArticle(id: string): Promise<any> {
+    return apiClient.get(`/articles/${id}`);
   }
 }
 

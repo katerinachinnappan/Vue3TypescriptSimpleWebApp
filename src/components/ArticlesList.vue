@@ -3,7 +3,7 @@
     <div class="col-md-12">
       <div class="mb-3">
         Articles per Page:
-        <select v-model="pageSize" @change="handlePageSizeChange($event)">
+        <select v-model="pageSize" @change="pageSizeChange($event)">
           <option v-for="size in pageSizes" :key="size" :value="size">
             {{ size }}
           </option>
@@ -16,7 +16,7 @@
         :per-page="pageSize"
         prev-text="Prev"
         next-text="Next"
-        @click="handlePageChange"
+        @click="pageChange"
       ></b-pagination>
     </div>
 
@@ -25,7 +25,7 @@
       <ul class="list-group" id="aricles-list">
         <li
           class="list-group-item"
-          :class="{ active: index == currentIndex }"
+          :class="{ active: index == currentArticleIndex }"
           v-for="(article, index) in articles"
           :key="index"
           @click="setActiveArticle(article, index)"
@@ -68,7 +68,6 @@
 import { defineComponent } from "vue";
 import ArticleDataService from "@/services/ArticleDataService";
 import Article from "@/types/Article";
-import ResponseData from "@/types/ResponseData";
 
 export default defineComponent({
   name: "articles-list",
@@ -81,7 +80,7 @@ export default defineComponent({
       totalItems: 0,
       pageSize: 5,
       pageSizes: [5, 10, 15], // page size options
-      currentIndex: -1,
+      currentArticleIndex: -1,
     };
   },
   methods: {
@@ -102,8 +101,8 @@ export default defineComponent({
       console.log("getting articles");
       const params = this.getRequestParams(this.page, this.pageSize);
       console.log(params);
-      ArticleDataService.getAll(params)
-        .then((response: ResponseData) => {
+      ArticleDataService.getArticles(params)
+        .then((response) => {
           this.articles = response.data.message.data;
           this.totalItems = response.data.message.totalItems;
           console.log(response.data.message);
@@ -112,7 +111,7 @@ export default defineComponent({
           console.log(e);
         });
     },
-    handlePageChange(value) {
+    pageChange(value) {
       const temp = value.target.innerHTML;
       if (temp == "Next" || temp == "»") {
         this.page = this.page + 1 - 1;
@@ -122,21 +121,15 @@ export default defineComponent({
       this.getArticles();
     },
 
-    handlePageSizeChange(event) {
+    pageSizeChange(event) {
       this.pageSize = Number(event.target.value);
       this.page = 1;
       this.getArticles();
     },
 
-    refreshList() {
-      this.getArticles();
-      this.currentArticle = {} as Article;
-      this.currentIndex = -1;
-    },
-
     setActiveArticle(article: Article, index = -1) {
       this.currentArticle = article;
-      this.currentIndex = index;
+      this.currentArticleIndex = index;
     },
   },
   mounted() {
@@ -148,7 +141,7 @@ export default defineComponent({
 <style>
 .list {
   text-align: left;
-  max-width: 750px;
+  max-width: 900px;
   margin: auto;
 }
 </style>

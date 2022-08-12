@@ -30,7 +30,6 @@
 import { defineComponent } from "vue";
 import ArticleDataService from "@/services/ArticleDataService";
 import Article from "@/types/Article";
-import ResponseData from "@/types/ResponseData";
 
 export default defineComponent({
   name: "article",
@@ -42,8 +41,8 @@ export default defineComponent({
   },
   methods: {
     getArticle(id: any) {
-      ArticleDataService.get(id)
-        .then((response: ResponseData) => {
+      ArticleDataService.getArticle(id)
+        .then((response) => {
           this.currentArticle = response.data.message;
           console.log(response.data.message);
         })
